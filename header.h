@@ -1,5 +1,4 @@
-//Zapoctovy program pro predmet Programovani v C++ v roce 2013/2014
-//Bedrich Pisl
+//Bedrich Pisl - Programming in C++, MFF, 2013/2014
 
 #ifndef BEDAS_HEADER_H
 #define BEDAS_HEADER_H

@@ -1,5 +1,4 @@
-//Zapoctovy program pro predmet Programovani v C++ v roce 2013/2014
-//Bedrich Pisl
+//Bedrich Pisl - Programming in C++, MFF, 2013/2014
 
 #ifndef BEDAS_MATRIX_H
 #define BEDAS_MATRIX_H
@@ -21,4 +20,3 @@
 #include "impl.h"
 
 #endif
-

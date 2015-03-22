@@ -1,5 +1,4 @@
-//Zapoctovy program pro predmet Programovani v C++ v roce 2013/2014
-//Bedrich Pisl
+//Bedrich Pisl - Programming in C++, MFF, 2013/2014
 
 #include "test.h"
 
@@ -12,9 +11,9 @@ bool almost_equal(const matrix<double> & first, const matrix<double> & second)
 	if((first.row_size() != second.row_size()) || (first.column_size() != second.column_size()))
 		return false;
 
-	for(int i=0; i<first.col_size(); ++i)
+	for(size_t i=0; i<first.col_size(); ++i)
 	{
-		for(int j=0; j<first.row_size(); ++j)
+		for(size_t j=0; j<first.row_size(); ++j)
 		{
 			if(abs(first[i][j] - second[i][j]) > 0.0000001)
 				return false;
@@ -40,8 +39,8 @@ int test1()
 		}
 	}
 
-	int nevim = m[1].at(2);
-	if(nevim != 7)
+	int b = m[1].at(2);
+	if(b != 7)
 		FAIL("");
 	
 	if(m[1][2] != 7)
@@ -54,7 +53,7 @@ int test1()
 
 	
 	if(m.column_size() != 3)
-		FAIL("transpozice nefunguje");
+		FAIL("transposition doesnt work");
 	
 	return 0;
 }
@@ -110,69 +109,69 @@ int test4()		//copy constructor a assignement operator
 {
 	bool vypis = false;
 
-	matrix<int>* jednotkova = new matrix<int>(4,4);
-	for(size_t i=0; i<jednotkova->row_size(); i++)
+	matrix<int>* identity_matrix = new matrix<int>(4,4);
+	for(size_t i=0; i<identity_matrix->row_size(); i++)
 	{
-		for(size_t j=0; j<jednotkova->column_size(); j++)
+		for(size_t j=0; j<identity_matrix->column_size(); j++)
 		{
 			if(i == j)
-				(*jednotkova)[i][j] = 1;
+				(*identity_matrix)[i][j] = 1;
 			else
-				(*jednotkova)[i][j] = 0;
+				(*identity_matrix)[i][j] = 0;
 
 		}
 	}
 	if(vypis)
 	{
-		cout << "jednotkova" << endl;
-		cout << *jednotkova;
+		cout << "identity_matrix" << endl;
+		cout << *identity_matrix;
 	}
 
-	matrix<int> jina_matice = *jednotkova;	//copy constructor
-	matrix<int> treti_matice(3, 3, 3);
+	matrix<int> other_matrix = *identity_matrix;	//copy constructor
+	matrix<int> third_matrix(3, 3, 3);
 
 	if(vypis)
 	{
-		cout << "treti matice" << endl;
-		cout << treti_matice;
+		cout << "third matrix" << endl;
+		cout << third_matrix;
 	}
-	jina_matice[1][1] = 33;
+	other_matrix[1][1] = 33;
 	
-	treti_matice = *jednotkova;		//assignement operator
+	third_matrix = *identity_matrix;		//assignement operator
 	
 	if(vypis)
 	{
-		cout << "treti matice: " << endl;
-		cout << treti_matice;
+		cout << "third matrix: " << endl;
+		cout << third_matrix;
 	}
 
-	if(treti_matice[2][2] != 1)
+	if(third_matrix[2][2] != 1)
 	{
-		cout << "treti_matice[2][2] = " << treti_matice[2][2] << " - should be 1" << endl;
+		cout << "third_matrix[2][2] = " << third_matrix[2][2] << " - should be 1" << endl;
 		FAIL("")
 	}
 	
 	if(vypis)
 	{
-		cout << "treti matice: " << endl;
-		cout << treti_matice;
+		cout << "third matrix: " << endl;
+		cout << third_matrix;
 	}
 
 	if(vypis)
 	{
-		cout << "jednotkove matice: " << endl;
-		cout << *jednotkova;
+		cout << "identity matrix: " << endl;
+		cout << *identity_matrix;
 	}
 
 
-	if((*jednotkova) != treti_matice)
+	if((*identity_matrix) != third_matrix)
 		FAIL("")
 
-	delete jednotkova;
+	delete identity_matrix;
 	return 0;
 }
 
-int test_aritmeticke_operace()		
+int test_arithmetical_operations()		
 {
 	matrix<int> A(2, 2, 2);
 	matrix<int> B(2, 2, 3);
@@ -182,10 +181,10 @@ int test_aritmeticke_operace()
 	zero_and_one[1][0] = 1;
 	zero_and_one[1][1] = 1;
 
-	matrix<int> vysledek = B - A + zero_and_one;
-	matrix<int> spravny_vysledek(2, 2, 1);
+	matrix<int> result = B - A + zero_and_one;
+	matrix<int> right_result(2, 2, 1);
 
-	if(vysledek != spravny_vysledek)
+	if(result != right_result)
 		FAIL("");
 	
 	matrix<int> C = A + B + A;
@@ -229,13 +228,13 @@ int template_iterator()
 	
 	auto cit = m.column_cend();
 	cit--;
-	matrix<int>::col sloupec = *cit;
-	matrix<int>::col::iterator sloupcovy_iterator = sloupec.begin();
-	int a = *sloupcovy_iterator;
+	matrix<int>::col my_column = *cit;
+	matrix<int>::col::iterator my_column_iterator = my_column.begin();
+	int a = *my_column_iterator;
 	if(a != 2)
 		FAIL("");	
 
-	matrix<int>::iterator::pointer pointer_to_int = new int;
+	//matrix<int>::iterator::pointer pointer_to_int = new int;
 	
 	return 0;
 }
@@ -243,32 +242,32 @@ int template_iterator()
 int inversion_test()
 {
 	
-	matrix<double> matice;
-	matice = matrix<double>(3,3,5);
-	matice[0][0] = 1;
-	matice[0][1] = 3;
-	matice[0][2] = 5;
-	matice[1][0] = matice[1][1] = matice[1][2] = 1;
-	matice[2][0] = 1;
-	matice[2][1] = 2;
-	matice[2][2] = 4;
+	matrix<double> my_matrix;
+	my_matrix = matrix<double>(3,3,5);
+	my_matrix[0][0] = 1;
+	my_matrix[0][1] = 3;
+	my_matrix[0][2] = 5;
+	my_matrix[1][0] = my_matrix[1][1] = my_matrix[1][2] = 1;
+	my_matrix[2][0] = 1;
+	my_matrix[2][1] = 2;
+	my_matrix[2][2] = 4;
 	
-	matrix<double> jednotkova(3, 3, 0);
+	matrix<double> identity_matrix(3, 3, 0);
 	for(int i=0; i<3; ++i)
-		jednotkova[i][i] = 1;
+		identity_matrix[i][i] = 1;
 	
-	if(!almost_equal(matice * matice.inversion(), jednotkova))
+	if(!almost_equal(my_matrix * my_matrix.inversion(), identity_matrix))
 		FAIL("");
 	
 	int i=0;
-	for(auto it = matice.begin(); it != matice.end(); ++it)
+	for(auto it = my_matrix.begin(); it != my_matrix.end(); ++it)
 	{
 		++i;
 		*it = i * i;
 	}
 	
-	matrix<double> inverzni = matice.inversion();	
-	matrix<double> transponovana = matice.transposition();
+	matrix<double> inverse = my_matrix.inversion();	
+	matrix<double> transponed = my_matrix.transposition();
 	
 	matrix<double> m6(2,2,2);
 	if(m6.inversion() != matrix<double>(0, 0))
@@ -299,7 +298,7 @@ int typedef_test()
 	return 0;
 }
 
-int matice_matic_test()
+int matrix_of_matrices_test()
 {
 	matrix<int> m(2, 2, 1);
 	matrix<matrix<int>> main_matrix(2, 2, m);
@@ -309,7 +308,7 @@ int matice_matic_test()
 	return 0;
 }
 /*		
-int checked_test()		//can be ru only if function matrix<T>::the_arithmetics() is public
+int checked_test()		//can be run only if function matrix<T>::the_arithmetics() is public
 {
 	try
 	{
@@ -433,7 +432,7 @@ int determinant_and_ref_test()
 	return 0;
 }
 
-int qr_rozklad_test()
+int qr_decomposition_test()
 {
 	matrix<double> m(3, 3);
 	m[0][0] = 0;
@@ -451,9 +450,9 @@ int qr_rozklad_test()
 	matrix<double> q = matrices.first;
 	matrix<double> r = matrices.second;
 	
-	for(int i=0; i<m.row_size(); ++i)
+	for(size_t i=0; i<m.row_size(); ++i)
 	{
-		for(int j=0; j<m.column_size(); ++j)
+		for(size_t j=0; j<m.column_size(); ++j)
 		{
 			if(((q*r)[i][j] + 0.0000001 < m[i][j]) || ((q*r)[i][j] - 0.00000001 > m[i][j]))
 			{
@@ -470,9 +469,9 @@ int qr_rozklad_test()
 	matrix<double> q2 = matrices2.first;
 	matrix<double> r2 = matrices2.second;
 	
-	for(int i=0; i<m2.row_size(); ++i)
+	for(size_t i=0; i<m2.row_size(); ++i)
 	{
-		for(int j=0; j<m2.column_size(); ++j)
+		for(size_t j=0; j<m2.column_size(); ++j)
 		{
 			if(((q2*r2)[i][j] + 0.0000001 < m2[i][j]) || ((q2*r2)[i][j] - 0.00000001 > m2[i][j]))
 			{
@@ -485,7 +484,7 @@ int qr_rozklad_test()
 	return 0;
 }
 
-int vlastni_cisla()
+int eigenvalues_test()
 {
 	
 	{
@@ -493,18 +492,18 @@ int vlastni_cisla()
 		m[0][1] = -1;
 		m[1][0] = -1;
 
-		vector<complex<double>> vlastni_cisla =  m.eigenvalues();
-		vector<complex<double>> spravna_vlastni_cisla;
+		vector<complex<double>> my_eigenvalues =  m.eigenvalues();
+		vector<complex<double>> right_eigenvalues;
 		
-		spravna_vlastni_cisla.push_back(complex<double>(1, 0));
-		spravna_vlastni_cisla.push_back(complex<double>(-1, 0));
+		right_eigenvalues.push_back(complex<double>(1, 0));
+		right_eigenvalues.push_back(complex<double>(-1, 0));
 		
-		if(spravna_vlastni_cisla != vlastni_cisla)
+		if(right_eigenvalues != my_eigenvalues)
 			FAIL("");
 	
-		vector<vector<complex<double>>> vlastni_vektory = m.eigenvectors(vlastni_cisla);
+		vector<vector<complex<double>>> my_eigenvectors = m.eigenvectors(my_eigenvalues);
 			//There should be two real eigenvectors (-1, 1) and (1, 1) or there multiple. Program stores them as cmoplex numbers so there would be few more zeros. 
-		//print_vector_of_vectors(vlastni_vektory);
+		//print_vector_of_vectors(my_eigenvectors);
 	}
 	
 	{
@@ -514,18 +513,18 @@ int vlastni_cisla()
 		m[1][0] = 2;
 		m[1][1] = 0;
 
-		vector<complex<double>> vlastni_cisla = m.eigenvalues();
+		vector<complex<double>> my_eigenvalues = m.eigenvalues();
 
-		if(abs(vlastni_cisla[0] - complex<double>(2, 0)) > 0.000001)
+		if(abs(my_eigenvalues[0] - complex<double>(2, 0)) > 0.000001)
 			FAIL("");
 		
-		if(abs(vlastni_cisla[1] - complex<double>(1, 0)) > 0.000001)
+		if(abs(my_eigenvalues[1] - complex<double>(1, 0)) > 0.000001)
 			FAIL("");
 	
-		vector<vector<complex<double>>> vlastni_vektory = m.eigenvectors(vlastni_cisla);
+		vector<vector<complex<double>>> my_eigenvectors = m.eigenvectors(my_eigenvalues);
 			//vectors should be (1, 1) and (1, 2) or multiples.
 	
-		//print_vector_of_vectors(vlastni_vektory);
+		//print_vector_of_vectors(my_eigenvectors);
 	}
 	
 	{
@@ -535,29 +534,29 @@ int vlastni_cisla()
 		m[1][0] = 4;
 		m[1][1] = -1;
 
-		vector<complex<double>> vlastni_cisla = m.eigenvalues();
+		vector<complex<double>> my_eigenvalues = m.eigenvalues();
 	
-		if(abs(vlastni_cisla[0] - complex<double>(1, 2)) > 0.000001)
+		if(abs(my_eigenvalues[0] - complex<double>(1, 2)) > 0.000001)
 			FAIL("");
 		
-		if(abs(vlastni_cisla[1] - complex<double>(1, -2)) > 0.000001)
+		if(abs(my_eigenvalues[1] - complex<double>(1, -2)) > 0.000001)
 			FAIL("");
 		
-		vector<vector<complex<double>>> vlastni_vektory = m.eigenvectors(vlastni_cisla);
+		vector<vector<complex<double>>> my_eigenvectors = m.eigenvectors(my_eigenvalues);
 			//vectors should be (1, 1 + i) and (1, 1 - i) or multiples.
 
 		matrix<complex<double>> special_matrix = m.to_complex();
 		
-		if(special_matrix.eigenvalues() != vlastni_cisla)
+		if(special_matrix.eigenvalues() != my_eigenvalues)
 			FAIL("");
 
-		special_matrix.eigenvectors(vlastni_cisla);
+		special_matrix.eigenvectors(my_eigenvalues);
 
 	}
 	return 0;
 }
 
-int definitnost_a_jordanova_forma()
+int definite_and_jordan_form()
 {
 	matrix<double> m(3, 3, -1);
 	m[0][0] = 2;
@@ -591,18 +590,18 @@ int definitnost_a_jordanova_forma()
 	m2[2][1] = 2;
 	m2[2][2] = 2;
 
-	vector<complex<double>> vlastni_cisla;
+	vector<complex<double>> my_eigenvalues;
 	for(int i=0; i<3; ++i)
-		vlastni_cisla.push_back(complex<double>(2, 0));
+		my_eigenvalues.push_back(complex<double>(2, 0));
 
-	matrix<double> spravny_jordan(3, 3, 0);
-	spravny_jordan[0][0] = 2;
-	spravny_jordan[1][1] = 2;
-	spravny_jordan[2][2] = 2;
-	spravny_jordan[0][1] = 1;
-	spravny_jordan[1][2] = 1;
+	matrix<double> right_jordan(3, 3, 0);
+	right_jordan[0][0] = 2;
+	right_jordan[1][1] = 2;
+	right_jordan[2][2] = 2;
+	right_jordan[0][1] = 1;
+	right_jordan[1][2] = 1;
 
-	if(spravny_jordan.to_complex() != m2.jordan_form(vlastni_cisla))
+	if(right_jordan.to_complex() != m2.jordan_form(my_eigenvalues))
 		FAIL("");
 
 	matrix<double> m3(3, 3, 0);
@@ -613,13 +612,13 @@ int definitnost_a_jordanova_forma()
 	m3[2][1] = -1;
 	m3[2][2] = 4;
 
-	spravny_jordan[0][1] = 0;
+	right_jordan[0][1] = 0;
 
-	if(spravny_jordan.to_complex() != m3.jordan_form(vlastni_cisla))
+	if(right_jordan.to_complex() != m3.jordan_form(my_eigenvalues))
 		FAIL("");
 	
 	matrix<complex<double>> special = m3.to_complex();
-	if(special.jordan_form(vlastni_cisla) != spravny_jordan.to_complex())
+	if(special.jordan_form(my_eigenvalues) != right_jordan.to_complex())
 		FAIL("");
 	
 

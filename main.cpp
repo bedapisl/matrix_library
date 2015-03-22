@@ -1,5 +1,4 @@
-//Zapoctovy program pro predmet Programovani v C++ v roce 2013/2014
-//Bedrich Pisl
+//Bedrich Pisl - Programming in C++, MFF, 2013/2014
 
 #include "test.h"
 
@@ -19,7 +18,7 @@ int main()
 	if(test4() != 0)
 		return -1;
 
-	if(test_aritmeticke_operace() != 0)
+	if(test_arithmetical_operations() != 0)
 		return -1;
 	
 	if(template_iterator() != 0)
@@ -31,7 +30,7 @@ int main()
 	if(typedef_test() != 0)
 		return -1;
 	
-	if(matice_matic_test() != 0)
+	if(matrix_of_matrices_test() != 0)
 		return -1;
 	
 	//if(checked_test() != 0)
@@ -40,13 +39,13 @@ int main()
 	if(determinant_and_ref_test() != 0)
 		return -1;
 	
-	if(qr_rozklad_test() != 0)
+	if(qr_decomposition_test() != 0)
 		return -1;
 	
-	if(vlastni_cisla() != 0)
+	if(eigenvalues_test() != 0)
 		return -1;
 		
-	if(definitnost_a_jordanova_forma() != 0)
+	if(definite_and_jordan_form() != 0)
 		return -1;
 
 	return 0;
